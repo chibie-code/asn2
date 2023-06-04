@@ -25,10 +25,14 @@ public class StudentController {
     // GET to display all students
     @GetMapping("/students/view")
     public String getAllStudents(Model model) {
-        System.out.println("Getting all students");
-        // get all students
-        List<Student> students = studentRepo.findAll();
-        model.addAttribute("stu", students);
+        try {
+            System.out.println("Getting all students");
+            // get all students
+            List<Student> students = studentRepo.findAll();
+            model.addAttribute("stu", students);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "students/showAll";
     }
 
@@ -43,21 +47,25 @@ public class StudentController {
     public String addStudent(
             @RequestParam Map<String, String> newStudent,
             HttpServletResponse response) {
-        System.out.println("ADD user");
-        String newName = newStudent.get("name");
-        String newWeight = newStudent.get("weight");
-        String newHeight = newStudent.get("height");
-        String newHairColor = newStudent.get("hairColor");
-        String newGpa = newStudent.get("gpa");
-        studentRepo.save(
-                new Student(
-                        newName,
-                        Double.parseDouble(newWeight),
-                        Double.parseDouble(newHeight),
-                        newHairColor,
-                        Double.parseDouble(newGpa)
-                )
-        );
+        try {
+            System.out.println("ADD user");
+            String newName = newStudent.get("name");
+            String newWeight = newStudent.get("weight");
+            String newHeight = newStudent.get("height");
+            String newHairColor = newStudent.get("hairColor");
+            String newGpa = newStudent.get("gpa");
+            studentRepo.save(
+                    new Student(
+                            newName,
+                            Double.parseDouble(newWeight),
+                            Double.parseDouble(newHeight),
+                            newHairColor,
+                            Double.parseDouble(newGpa)
+                    )
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/students/view";
     }
 
@@ -79,7 +87,7 @@ public class StudentController {
                 System.out.println("[DELETE]Record not found");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return "redirect:/students/view";
     }
@@ -110,16 +118,15 @@ public class StudentController {
             @PathVariable(value = "uid") int uid,
             @RequestParam Map<String, String> newStudent,
             HttpServletResponse response) {
-        System.out.println("EDIT student uid:");
-        System.out.println(uid);
-        String newName = newStudent.get("newName");
-        double newWeight = Double.parseDouble(newStudent.get("newWeight"));
-        double newHeight = Double.parseDouble(newStudent.get("newHeight"));
-        String newHairColor = newStudent.get("newHairColor");
-        double newGpa = Double.parseDouble(newStudent.get("newGpa"));
-        Student student;
         try {
-            student = studentRepo.findById(uid).orElseThrow(() -> (new Exception("null")));
+            System.out.println("EDIT student uid:");
+            System.out.println(uid);
+            String newName = newStudent.get("newName");
+            double newWeight = Double.parseDouble(newStudent.get("newWeight"));
+            double newHeight = Double.parseDouble(newStudent.get("newHeight"));
+            String newHairColor = newStudent.get("newHairColor");
+            double newGpa = Double.parseDouble(newStudent.get("newGpa"));
+            Student student = studentRepo.findById(uid).orElseThrow(() -> (new Exception("null")));
             student.setName(newName);
             student.setWeight(newWeight);
             student.setHeight(newHeight);

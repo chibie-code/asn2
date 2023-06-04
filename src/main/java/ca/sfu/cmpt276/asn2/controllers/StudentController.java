@@ -33,7 +33,7 @@ public class StudentController {
     }
 
     // GET to simply goto add student page
-    @GetMapping("/students/add")
+    @GetMapping("/students/new_student")
     public String gotoAddStudent(){
         return "/students/add";
     }

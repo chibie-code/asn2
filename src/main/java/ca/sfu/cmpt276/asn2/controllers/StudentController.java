@@ -35,7 +35,7 @@ public class StudentController {
     // GET to simply goto add student page
     @GetMapping("/students/new_student")
     public String gotoAddStudent(){
-        return "/students/add";
+        return "redirect:/add.html";
     }
 
     // POST request to submit new student to db

@@ -23,6 +23,12 @@ public class StudentController {
     private StudentRepo studentRepo;
 
     // GET to display all students
+    @GetMapping("/error")
+    public String errorPage(Model model) {
+        return "error";
+    }
+
+    // GET to display all students
     @GetMapping("/students/view")
     public String getAllStudents(Model model) {
         try {
